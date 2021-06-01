@@ -14,14 +14,23 @@ namespace WebAddressbookTests
         [Test]
         public void GroupCreationTest()
         {
-            app.Navigator.GoToGroupPage();
-            app.Groups
-                .InitGroupCreation()
-                .FillGroupForm(new GroupData("qa1", "qa2", "qa3"))
-                .SubmitGroupCreation()
-                .ReturnToGroupsPage();
+            GroupData group = new GroupData("aaa");
+            group.Header = "bbb";
+            group.Footer = "ccc";
+            app.Groups.Create(group);
+         
             app.Exit.Logout();
         }
-                
+
+        [Test]
+        public void EmptyGroupCreationTest()
+        {
+            GroupData group = new GroupData("");
+            group.Header = "";
+            group.Footer = "";
+            app.Groups.Create(group);
+            app.Exit.Logout();
+        }
+
     }
 }
