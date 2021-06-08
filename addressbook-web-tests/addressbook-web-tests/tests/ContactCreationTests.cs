@@ -16,10 +16,7 @@ namespace WebAddressbookTests
             ContactData contact = new ContactData("first");
             contact.Middlename = "middle";
             contact.Lastname = "last";
-            app.Contacts
-                .InitNewContactCreation()            
-                .FillContactForm(contact)
-                .SubmitContact();
+            app.Contacts.Create(contact);
             //app.Exit.Logout();
         }
                  

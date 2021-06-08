@@ -29,6 +29,7 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int p, GroupData newData)
         {
             manager.Navigator.GoToGroupPage();
+            CheckGroupExistence();
             SelectGroup(p);
             InitGroupModification();
             FillGroupForm(newData);
@@ -41,6 +42,7 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupPage();
+            CheckGroupExistence();
             SelectGroup(p);
             RemoveGroup();
             ReturnToGroupsPage();
@@ -62,8 +64,6 @@ namespace WebAddressbookTests
             Type(By.Name("group_footer"), group.Footer);
             return this;
         }
-
-      
 
         public GroupHelper SubmitGroupCreation()
         {
@@ -98,5 +98,20 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("delete")).Click();
             return this;
         }
+
+        private GroupHelper CheckGroupExistence() 
+        {
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                GroupData group = new GroupData("aaa");
+                group.Header = "bbb";
+                group.Footer = "ccc";
+                Create(group);
+
+            }
+            return this;
+
+        }
+
     }
 }

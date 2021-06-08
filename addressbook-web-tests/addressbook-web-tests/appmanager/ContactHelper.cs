@@ -16,9 +16,19 @@ namespace WebAddressbookTests
             : base(manager)
         {
         }
+        public ContactHelper Create(ContactData contact)
+        {
+            manager.Navigator.OpenHomePage();
+            InitNewContactCreation();
+            FillContactForm(contact);
+            SubmitContact();
+            ReturnToHomePage();
+            return this;
+        }
         public ContactHelper Modify(int p, ContactData newData)
         {
             manager.Navigator.OpenHomePage();
+            CheckContactExistence();
             InitContactModification(p);
             FillContactForm(newData);
             SubmitContactModification();
@@ -29,6 +39,7 @@ namespace WebAddressbookTests
         public ContactHelper Remove(int p)
         {
             manager.Navigator.OpenHomePage();
+            CheckContactExistence();
             SelectContact(p);
             RemoveContact();
             ConfirmContactRemoval();
@@ -81,6 +92,18 @@ namespace WebAddressbookTests
         {
             driver.SwitchTo().Alert().Accept();
             return this;
+        }
+        private ContactHelper CheckContactExistence()
+        {
+             if (!IsElementPresent(By.Name("selected[]")))
+            {
+                ContactData contact = new ContactData("first name");
+                contact.Middlename = "middle name";
+                contact.Lastname = "last name";
+                Create(contact);
+            }
+            return this;
+
         }
 
     }
