@@ -28,7 +28,6 @@ namespace WebAddressbookTests
         public ContactHelper Modify(int p, ContactData newData)
         {
             manager.Navigator.OpenHomePage();
-            CheckContactExistence();
             InitContactModification(p);
             FillContactForm(newData);
             SubmitContactModification();
@@ -38,8 +37,7 @@ namespace WebAddressbookTests
 
         public ContactHelper Remove(int p)
         {
-            manager.Navigator.OpenHomePage();
-            CheckContactExistence();
+            manager.Navigator.OpenHomePage();          
             SelectContact(p);
             RemoveContact();
             ConfirmContactRemoval();
@@ -93,9 +91,10 @@ namespace WebAddressbookTests
             driver.SwitchTo().Alert().Accept();
             return this;
         }
-        private ContactHelper CheckContactExistence()
+        public ContactHelper CheckContactExistence()
         {
-             if (!IsElementPresent(By.Name("selected[]")))
+            manager.Navigator.OpenHomePage();
+            if (!IsElementPresent(By.Name("selected[]")))
             {
                 ContactData contact = new ContactData("first name");
                 contact.Middlename = "middle name";
