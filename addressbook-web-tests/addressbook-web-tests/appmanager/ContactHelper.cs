@@ -42,8 +42,7 @@ namespace WebAddressbookTests
             manager.Navigator.OpenHomePage();          
             SelectContact(p);
             RemoveContact();
-            ConfirmContactRemoval();
-            ReturnToHomePage();
+            ConfirmContactRemoval();            
             return this;
         }
 
@@ -64,9 +63,9 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("(//input[@name='submit'])[2]")).Click();
             return this;
         }
-        public ContactHelper InitContactModification(int p)
+        public ContactHelper InitContactModification(int index)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ p +"]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ (index + 1) +"]")).Click();
             return this;
         }
         public ContactHelper SubmitContactModification()
@@ -116,10 +115,6 @@ namespace WebAddressbookTests
             foreach (IWebElement element in elements)
             {
                 contacts.Add(new ContactData(element.FindElement(By.XPath("td[3]")).Text, element.FindElement(By.XPath("td[2]")).Text));
-
-
-                //List<IWebElement> cells = element.FindElements(By.TagName("td")).ToList();
-                //contacts.Add(new ContactData(cells[2].Text, cells[1].Text));
             }
             return contacts;
         }
