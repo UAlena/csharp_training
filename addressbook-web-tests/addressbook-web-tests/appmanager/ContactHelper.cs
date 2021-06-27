@@ -36,7 +36,7 @@ namespace WebAddressbookTests
             SubmitContactModification();
             ReturnToHomePage();
             return this;
-        }
+        }       
 
         public ContactHelper Remove(int p)
         {
@@ -45,7 +45,7 @@ namespace WebAddressbookTests
             RemoveContact();
             ConfirmContactRemoval();            
             return this;
-        }
+        }        
 
         public ContactHelper InitNewContactCreation()
         {
@@ -109,6 +109,12 @@ namespace WebAddressbookTests
             }
             return this;
 
+        }
+        public ContactHelper OpenDetailedUserInfo(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            driver.FindElement(By.XPath("(//img[@alt='Details'])[" + (index + 1) + "]")).Click();
+            return this;
         }
 
         private List<ContactData> contactCache = null;
@@ -183,6 +189,13 @@ namespace WebAddressbookTests
                 Email2 = email2,
                 Email3 = email3            
             };
+        }
+        public string GetContactInformationFromDetailedForm(int index)
+        {
+            OpenDetailedUserInfo(index);
+            string userInfo = driver.FindElement(By.Id("content")).Text;
+
+            return userInfo;
         }
 
     }

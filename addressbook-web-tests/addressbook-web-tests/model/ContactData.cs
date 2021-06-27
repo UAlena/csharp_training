@@ -8,14 +8,15 @@ using System.Text.RegularExpressions;
 namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
-    {       
+    {
         private string allPhones;
         private string allEmails;
+        private string allDetailedInfo;
 
-        public ContactData (string firstname)
+        public ContactData(string firstname)
         {
             Firstname = firstname;
-           
+
         }
         public ContactData(string firstname, string lastname)
         {
@@ -50,18 +51,18 @@ namespace WebAddressbookTests
                 return 1;
             }
             if (this.Lastname == other.Lastname)
-                 {
-                     return Firstname.CompareTo(other.Firstname);
-                 }
+            {
+                return Firstname.CompareTo(other.Firstname);
+            }
 
-                return Lastname.CompareTo(other.Lastname);
+            return Lastname.CompareTo(other.Lastname);
         }
 
         public string Firstname { get; set; }
-        
-     
+
+
         public string Middlename { get; set; }
-       
+
         public string Lastname { get; set; }
 
         public string Address { get; set; }
@@ -77,7 +78,7 @@ namespace WebAddressbookTests
 
         public string Email3 { get; set; }
 
-        public string AllPhones { 
+        public string AllPhones {
             get {
                 if (allPhones != null)
                 {
@@ -87,11 +88,11 @@ namespace WebAddressbookTests
                 {
                     return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
                 }
-            
-            } 
+
+            }
             set {
                 allPhones = value;
-            } 
+            }
         }
 
         private string CleanUp(string phone)
@@ -100,9 +101,9 @@ namespace WebAddressbookTests
             {
                 return "";
             }
-            return Regex.Replace(phone, "[-()]","") + "\r\n";
+            return Regex.Replace(phone, "[-()]", "") + "\r\n";
         }
-              
+
 
         public string AllEmails
         {
@@ -114,7 +115,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    
+
                     return (PrepareEmails(Email1) + PrepareEmails(Email2) + PrepareEmails(Email3)).Trim();
                 }
 
@@ -122,6 +123,96 @@ namespace WebAddressbookTests
             set
             {
                 allEmails = value;
+            }
+        }
+        public string AllDetailedInfo
+        {
+            get
+            {
+                allDetailedInfo = Firstname;
+                if (Firstname != null && Lastname != null && Firstname != "" && Lastname != "")
+                {
+                    allDetailedInfo += (" " + Lastname);
+                }
+                else
+                {
+                    if (Lastname != null && Lastname != "")
+                    {
+                        allDetailedInfo += Lastname;
+                    }
+                }
+                if (Address != null && Address != "")
+                {
+                    allDetailedInfo += ("\r\n" + Address);
+                }
+                if (HomePhone != null && HomePhone != "")
+                {
+                    allDetailedInfo += ("\r\n\r\nH: " + HomePhone);
+                    if (MobilePhone != null && MobilePhone != "")
+                    {
+                        allDetailedInfo += ("\r\nM: " + MobilePhone);
+                    }
+                    if (WorkPhone != null && WorkPhone != "")
+                    {
+                        allDetailedInfo += ("\r\nW: " + WorkPhone);
+                    }
+                }
+                else
+                {
+                    if (MobilePhone != null && MobilePhone != "")
+                    {
+                        allDetailedInfo += ("\r\n\r\nM: " + MobilePhone);
+                        if (WorkPhone != null && WorkPhone != "")
+                        {
+                            allDetailedInfo += ("\r\nW: " + WorkPhone);
+                        }
+                    }
+                    else
+                    {
+                        if (WorkPhone != null && WorkPhone != "")
+                        {
+                            allDetailedInfo += ("\r\n\r\nW: " + WorkPhone);
+                        }
+                    }
+                    
+                }
+             
+                if (Email1 != null && Email1 != "")
+                {
+                    allDetailedInfo += ("\r\n\r\n" + Email1);
+                    if (Email2 != null && Email2 != "")
+                    {
+                        allDetailedInfo += ("\r\n" + Email2);
+                    }
+                    if (Email3 != null && Email3 != "")
+                    {
+                        allDetailedInfo += ("\r\n" + Email3);
+                    }
+                }
+                else
+                {
+                    if (Email2 != null && Email2 != "")
+                    {
+                        allDetailedInfo += ("\r\n\r\n" + Email2);
+                        if (Email3 != null && Email3 != "")
+                        {
+                            allDetailedInfo += ("\r\n" + Email3);
+                        }
+                    }
+                    else
+                    {
+                        if (Email3 != null && Email3 != "")
+                        {
+                            allDetailedInfo += ("\r\n\r\n" + Email3);
+                        }
+                    }
+                }
+
+                return allDetailedInfo.Trim();
+            }
+            set
+            {
+                allDetailedInfo = value;
             }
         }
 
